@@ -1,12 +1,15 @@
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
+import { useCart } from '../hooks/useCart';
 import { useState } from 'react';
 
 export default function Navigation() {
   const { isLoggedIn, isAdmin, logout } = useAuth();
   const { darkMode, toggleTheme } = useTheme();
+  const { getCartCount } = useCart();
   const [adminMenuOpen, setAdminMenuOpen] = useState(false);
+  const cartCount = getCartCount();
 
   return (
     <nav className={`${darkMode ? 'bg-dark/95' : 'bg-white/95'} backdrop-blur-sm fixed w-full z-50 shadow-md transition-colors duration-300`}>
@@ -83,6 +86,28 @@ export default function Navigation() {
                 </svg>
               )}
             </button>
+
+            {/* Cart icon with pulsing badge */}
+            <Link
+              to="/cart"
+              className="relative p-2 rounded-full focus:outline-none transition-transform duration-200 hover:scale-110"
+              aria-label={`Shopping cart${cartCount > 0 ? `, ${cartCount} items` : ''}`}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className={`h-6 w-6 ${darkMode ? 'text-light' : 'text-gray-700'}`}
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <path d="M6 2a1 1 0 000 2h.18l1.67 7.94A3 3 0 007 14a3 3 0 003 3h9a1 1 0 000-2H10a1 1 0 01-1-1v-.18l9.45-1.58A1 1 0 0019.4 11L18 5H7.82L7.5 3.47A1 1 0 006.5 2H6zM10 19a2 2 0 100 4 2 2 0 000-4zm8 0a2 2 0 100 4 2 2 0 000-4z" />
+              </svg>
+              {cartCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-red-500 animate-pulse text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                  {cartCount > 99 ? '99+' : cartCount}
+                </span>
+              )}
+            </Link>
+
             {isLoggedIn ? (
               <>
                 <span className={`${darkMode ? 'text-light' : 'text-gray-700'} text-sm transition-colors`}>
