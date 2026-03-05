@@ -4,6 +4,8 @@ import { useTheme } from '../context/ThemeContext';
 import { useCart } from '../hooks/useCart';
 import { useState } from 'react';
 
+const MAX_BADGE_COUNT = 99;
+
 export default function Navigation() {
   const { isLoggedIn, isAdmin, logout } = useAuth();
   const { darkMode, toggleTheme } = useTheme();
@@ -103,7 +105,7 @@ export default function Navigation() {
               </svg>
               {cartCount > 0 && (
                 <span className="absolute -top-1 -right-1 bg-red-500 animate-pulse text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
-                  {cartCount > 99 ? '99+' : cartCount}
+                  {cartCount > MAX_BADGE_COUNT ? `${MAX_BADGE_COUNT}+` : cartCount}
                 </span>
               )}
             </Link>

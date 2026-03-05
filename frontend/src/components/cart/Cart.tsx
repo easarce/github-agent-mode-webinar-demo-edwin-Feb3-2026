@@ -2,13 +2,18 @@ import { Link } from 'react-router-dom';
 import { useTheme } from '../../context/ThemeContext';
 import { useCart } from '../../hooks/useCart';
 
+const FREE_SHIPPING_THRESHOLD = 100;
+const STANDARD_SHIPPING_COST = 25;
+
+const formatCurrency = (amount: number) => `$${amount.toFixed(2)}`;
+
 export default function Cart() {
   const { darkMode } = useTheme();
   const { items, removeFromCart, updateQuantity, getCartTotal, getCartCount } = useCart();
 
   const subtotal = getCartTotal();
   const itemCount = getCartCount();
-  const shipping = subtotal > 100 ? 0 : 25;
+  const shipping = subtotal > FREE_SHIPPING_THRESHOLD ? 0 : STANDARD_SHIPPING_COST;
   const total = subtotal + shipping;
 
   if (items.length === 0) {
@@ -75,7 +80,7 @@ export default function Cart() {
                 </h3>
 
                 {/* Unit price */}
-                <p className="text-primary font-medium">${item.price.toFixed(2)} each</p>
+                <p className="text-primary font-medium">{formatCurrency(item.price)} each</p>
 
                 {/* Quantity selector */}
                 <div className="flex items-center space-x-2">
@@ -102,7 +107,7 @@ export default function Cart() {
                 <p className={`text-sm font-medium ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
                   Subtotal:{' '}
                   <span className="text-primary font-bold">
-                    ${(item.price * item.quantity).toFixed(2)}
+                    {formatCurrency(item.price * item.quantity)}
                   </span>
                 </p>
 
@@ -131,18 +136,18 @@ export default function Cart() {
               </span>
               <span className={darkMode ? 'text-gray-300' : 'text-gray-600'}>
                 <span className="font-semibold">Subtotal:</span>{' '}
-                <span className={darkMode ? 'text-light' : 'text-gray-800'}>${subtotal.toFixed(2)}</span>
+                <span className={darkMode ? 'text-light' : 'text-gray-800'}>{formatCurrency(subtotal)}</span>
               </span>
               <span className={darkMode ? 'text-gray-300' : 'text-gray-600'}>
                 <span className="font-semibold">Shipping:</span>{' '}
                 {shipping === 0 ? (
                   <span className="text-green-500 font-bold">FREE</span>
                 ) : (
-                  <span className={darkMode ? 'text-light' : 'text-gray-800'}>${shipping.toFixed(2)}</span>
+                  <span className={darkMode ? 'text-light' : 'text-gray-800'}>{formatCurrency(shipping)}</span>
                 )}
               </span>
               <span className={`text-base font-bold ${darkMode ? 'text-light' : 'text-gray-800'}`}>
-                Total: <span className="text-primary">${total.toFixed(2)}</span>
+                Total: <span className="text-primary">{formatCurrency(total)}</span>
               </span>
             </div>
             <button className="bg-primary hover:bg-accent text-white px-8 py-3 rounded-lg font-semibold transition-colors duration-300 whitespace-nowrap">

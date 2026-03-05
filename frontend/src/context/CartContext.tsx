@@ -8,9 +8,11 @@ export interface CartItem {
   quantity: number;
 }
 
+export type CartProduct = Omit<CartItem, 'quantity'>;
+
 interface CartContextType {
   items: CartItem[];
-  addToCart: (product: { productId: number; name: string; price: number; imgName: string }, quantity: number) => void;
+  addToCart: (product: CartProduct, quantity: number) => void;
   removeFromCart: (productId: number) => void;
   updateQuantity: (productId: number, quantity: number) => void;
   clearCart: () => void;
@@ -35,7 +37,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   }, [items]);
 
   const addToCart = (
-    product: { productId: number; name: string; price: number; imgName: string },
+    product: CartProduct,
     quantity: number
   ) => {
     if (quantity <= 0) return;
