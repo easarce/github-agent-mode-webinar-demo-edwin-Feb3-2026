@@ -1,12 +1,15 @@
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
+import { useCart } from '../hooks/useCart';
 import { useState } from 'react';
 
 export default function Navigation() {
   const { isLoggedIn, isAdmin, logout } = useAuth();
   const { darkMode, toggleTheme } = useTheme();
+  const { getCartCount } = useCart();
   const [adminMenuOpen, setAdminMenuOpen] = useState(false);
+  const cartCount = getCartCount();
 
   return (
     <nav className={`${darkMode ? 'bg-dark/95' : 'bg-white/95'} backdrop-blur-sm fixed w-full z-50 shadow-md transition-colors duration-300`}>
@@ -83,6 +86,43 @@ export default function Navigation() {
                 </svg>
               )}
             </button>
+
+            {/* Shopping bag icon with interior count */}
+            <Link
+              to="/cart"
+              className={`p-2 rounded-full hover:bg-primary/10 transition-colors duration-200`}
+              aria-label={`Cart${cartCount > 0 ? `, ${cartCount} items` : ', empty'}`}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className={`h-6 w-6 ${darkMode ? 'text-light' : 'text-gray-700'} transition-colors duration-200`}
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={1.5}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M6 2 4 6v14a2 2 0 002 2h12a2 2 0 002-2V6l-2-4z"
+                />
+                <line x1="3.17" y1="6" x2="20.83" y2="6" strokeLinecap="round" />
+                <path strokeLinecap="round" strokeLinejoin="round" d="M16 10a4 4 0 01-8 0" />
+                {cartCount > 0 && (
+                  <text
+                    x="12"
+                    y="17"
+                    textAnchor="middle"
+                    fontSize="9"
+                    fontWeight="bold"
+                    fill="currentColor"
+                    stroke="none"
+                  >
+                    {cartCount > 99 ? '99+' : cartCount}
+                  </text>
+                )}
+              </svg>
+            </Link>
             {isLoggedIn ? (
               <>
                 <span className={`${darkMode ? 'text-light' : 'text-gray-700'} text-sm transition-colors`}>
