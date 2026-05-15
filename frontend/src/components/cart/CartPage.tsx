@@ -29,12 +29,24 @@ export default function CartPage() {
                 }`}
               >
                 <span className={`text-lg font-semibold ${darkMode ? 'text-light' : 'text-gray-700'}`}>{index + 1}</span>
-                <img src={item.image} alt={item.name} width="64" height="64" className="h-16 w-16 rounded-md object-cover" />
+                <img
+                  src={item.image}
+                  alt={item.name}
+                  width="64"
+                  height="64"
+                  className="h-16 w-16 rounded-md object-cover"
+                  onError={(event) => {
+                    event.currentTarget.src = '/copilot.png';
+                  }}
+                />
                 <div>
                   <p className={`font-semibold ${darkMode ? 'text-light' : 'text-gray-800'}`}>{item.name}</p>
                   <p className="text-sm text-primary">{formatCurrency(item.price)} each</p>
                 </div>
-                <span className={`rounded-md border px-3 py-1 text-center ${darkMode ? 'border-gray-600 text-light' : 'border-gray-300 text-gray-700'}`}>
+                <span
+                  className={`rounded-md border px-3 py-1 text-center ${darkMode ? 'border-gray-600 text-light' : 'border-gray-300 text-gray-700'}`}
+                  aria-label={`Quantity ${item.quantity}`}
+                >
                   {item.quantity}
                 </span>
                 <span className={`text-lg font-semibold ${darkMode ? 'text-light' : 'text-gray-800'}`}>{formatCurrency(item.price * item.quantity)}</span>
@@ -43,6 +55,7 @@ export default function CartPage() {
                   aria-label={`Remove ${item.name} from cart`}
                   type="button"
                   disabled
+                  title="Remove action is not available in this demo"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M6 7h12M9 7V5a1 1 0 011-1h4a1 1 0 011 1v2m-8 0v12a1 1 0 001 1h8a1 1 0 001-1V7" />
