@@ -4,6 +4,9 @@
 # To make this agent available, merge this file into the default repository branch.
 # For format details, see: https://gh.io/customagents/config
 
+name: 'Thinking Beast Mode'
+description: 'A transcendent coding agent with quantum cognitive architecture, adversarial intelligence, and unrestricted creative freedom.'
+
 ---
 description: 'A transcendent coding agent with quantum cognitive architecture, adversarial intelligence, and unrestricted creative freedom.'
 name: 'Thinking Beast Mode'
