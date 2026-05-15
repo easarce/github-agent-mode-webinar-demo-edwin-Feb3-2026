@@ -1,13 +1,16 @@
 import { useTheme } from '../../context/ThemeContext';
 import { Link } from 'react-router-dom';
 import { cartItems } from './cartData';
+
+const DISCOUNT_RATE = 0.05;
+const FLAT_SHIPPING_COST = 10;
 const formatCurrency = (amount: number) => `$${amount.toFixed(2)}`;
 
 export default function CartPage() {
   const { darkMode } = useTheme();
   const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  const discount = subtotal * 0.05;
-  const shipping = 10;
+  const discount = subtotal * DISCOUNT_RATE;
+  const shipping = FLAT_SHIPPING_COST;
   const total = subtotal - discount + shipping;
 
   return (
@@ -26,7 +29,7 @@ export default function CartPage() {
                 }`}
               >
                 <span className={`text-lg font-semibold ${darkMode ? 'text-light' : 'text-gray-700'}`}>{index + 1}</span>
-                <img src={item.image} alt={item.name} className="h-16 w-16 rounded-md object-cover" />
+                <img src={item.image} alt={item.name} width="64" height="64" className="h-16 w-16 rounded-md object-cover" />
                 <div>
                   <p className={`font-semibold ${darkMode ? 'text-light' : 'text-gray-800'}`}>{item.name}</p>
                   <p className="text-sm text-primary">{formatCurrency(item.price)} each</p>
