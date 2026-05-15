@@ -1,18 +1,7 @@
 import { useTheme } from '../../context/ThemeContext';
-
-type CartItem = {
-  id: number;
-  name: string;
-  image: string;
-  price: number;
-  quantity: number;
-};
-
-const cartItems: CartItem[] = [
-  { id: 1, name: 'AI Smart Feeder', image: '/feeder.png', price: 89, quantity: 1 },
-  { id: 2, name: 'Smart Fountain', image: '/smart-fountain.png', price: 99, quantity: 1 },
-  { id: 3, name: 'Auto Groomer', image: '/auto-groomer.png', price: 79, quantity: 1 },
-];
+import { Link } from 'react-router-dom';
+import { cartItems } from './cartData';
+const formatCurrency = (amount: number) => `$${amount.toFixed(2)}`;
 
 export default function CartPage() {
   const { darkMode } = useTheme();
@@ -40,16 +29,17 @@ export default function CartPage() {
                 <img src={item.image} alt={item.name} className="h-16 w-16 rounded-md object-cover" />
                 <div>
                   <p className={`font-semibold ${darkMode ? 'text-light' : 'text-gray-800'}`}>{item.name}</p>
-                  <p className="text-sm text-primary">${item.price.toFixed(2)} each</p>
+                  <p className="text-sm text-primary">{formatCurrency(item.price)} each</p>
                 </div>
                 <span className={`rounded-md border px-3 py-1 text-center ${darkMode ? 'border-gray-600 text-light' : 'border-gray-300 text-gray-700'}`}>
                   {item.quantity}
                 </span>
-                <span className={`text-lg font-semibold ${darkMode ? 'text-light' : 'text-gray-800'}`}>${(item.price * item.quantity).toFixed(2)}</span>
+                <span className={`text-lg font-semibold ${darkMode ? 'text-light' : 'text-gray-800'}`}>{formatCurrency(item.price * item.quantity)}</span>
                 <button
-                  className="text-primary transition-colors hover:text-accent"
+                  className="text-primary opacity-70 transition-colors disabled:cursor-not-allowed disabled:opacity-50"
                   aria-label={`Remove ${item.name} from cart`}
                   type="button"
+                  disabled
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M6 7h12M9 7V5a1 1 0 011-1h4a1 1 0 011 1v2m-8 0v12a1 1 0 001 1h8a1 1 0 001-1V7" />
@@ -61,13 +51,15 @@ export default function CartPage() {
           <div className="flex flex-wrap items-center justify-between gap-3 border-t border-primary/20 p-5">
             <button
               type="button"
-              className="rounded-full bg-primary px-6 py-2 font-medium text-white transition-colors hover:bg-accent"
+              className="rounded-full bg-primary px-6 py-2 font-medium text-white opacity-70 transition-colors disabled:cursor-not-allowed disabled:opacity-50"
+              disabled
             >
               Apply Coupon
             </button>
             <button
               type="button"
-              className="rounded-full bg-primary px-6 py-2 font-medium text-white transition-colors hover:bg-accent"
+              className="rounded-full bg-primary px-6 py-2 font-medium text-white opacity-70 transition-colors disabled:cursor-not-allowed disabled:opacity-50"
+              disabled
             >
               Update Cart
             </button>
@@ -81,28 +73,28 @@ export default function CartPage() {
           <dl className="space-y-3 p-5">
             <div className="flex items-center justify-between">
               <dt className={darkMode ? 'text-gray-300' : 'text-gray-700'}>Subtotal</dt>
-              <dd className={`font-semibold ${darkMode ? 'text-light' : 'text-gray-800'}`}>${subtotal.toFixed(2)}</dd>
+              <dd className={`font-semibold ${darkMode ? 'text-light' : 'text-gray-800'}`}>{formatCurrency(subtotal)}</dd>
             </div>
             <div className="flex items-center justify-between">
               <dt className={darkMode ? 'text-gray-300' : 'text-gray-700'}>Discount (5%)</dt>
-              <dd className={`font-semibold ${darkMode ? 'text-light' : 'text-gray-800'}`}>-${discount.toFixed(2)}</dd>
+              <dd className={`font-semibold ${darkMode ? 'text-light' : 'text-gray-800'}`}>-{formatCurrency(discount)}</dd>
             </div>
             <div className="flex items-center justify-between">
               <dt className={darkMode ? 'text-gray-300' : 'text-gray-700'}>Shipping</dt>
-              <dd className={`font-semibold ${darkMode ? 'text-light' : 'text-gray-800'}`}>${shipping.toFixed(2)}</dd>
+              <dd className={`font-semibold ${darkMode ? 'text-light' : 'text-gray-800'}`}>{formatCurrency(shipping)}</dd>
             </div>
             <div className="flex items-center justify-between border-t border-primary/20 pt-3">
               <dt className={`text-lg font-semibold ${darkMode ? 'text-light' : 'text-gray-800'}`}>Grand Total</dt>
-              <dd className="text-lg font-bold text-primary">${total.toFixed(2)}</dd>
+              <dd className="text-lg font-bold text-primary">{formatCurrency(total)}</dd>
             </div>
           </dl>
           <div className="p-5 pt-0">
-            <button
-              type="button"
-              className="w-full rounded-full bg-primary px-6 py-3 font-semibold text-white transition-colors hover:bg-accent"
+            <Link
+              to="/login"
+              className="inline-flex w-full items-center justify-center rounded-full bg-primary px-6 py-3 font-semibold text-white transition-colors hover:bg-accent"
             >
               Proceed To Checkout
-            </button>
+            </Link>
           </div>
         </aside>
       </div>
