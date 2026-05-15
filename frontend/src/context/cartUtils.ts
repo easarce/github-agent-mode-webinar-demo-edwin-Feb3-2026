@@ -31,6 +31,10 @@ export const calculateShipping = (subtotal: number) =>
   subtotal >= FREE_SHIPPING_THRESHOLD || subtotal === 0 ? 0 : SHIPPING_FEE;
 
 export const getInitialCartItems = (): CartItem[] => {
+  if (typeof window === 'undefined' || typeof window.localStorage === 'undefined') {
+    return [];
+  }
+
   const storedCart = localStorage.getItem(CART_STORAGE_KEY);
 
   if (!storedCart) {

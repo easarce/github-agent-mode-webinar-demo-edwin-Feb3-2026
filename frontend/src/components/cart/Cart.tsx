@@ -30,7 +30,7 @@ export default function Cart() {
                   className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-xl p-4 shadow-lg transition-colors duration-300`}
                 >
                   <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
-                    <img src={`/${item.imgName}`} alt={item.name} className="w-24 h-24 object-contain rounded-lg bg-gray-100 p-2" />
+                    <img src={`/${item.imgName}`} alt={`Product image for ${item.name}`} className="w-24 h-24 object-contain rounded-lg bg-gray-100 p-2" />
                     <div className="flex-1">
                       <h2 className={`text-lg font-semibold ${darkMode ? 'text-light' : 'text-gray-800'} transition-colors duration-300`}>{item.name}</h2>
                       <p className="text-primary font-bold">{formatCurrency(getUnitPrice(item))}</p>
