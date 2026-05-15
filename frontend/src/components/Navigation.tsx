@@ -2,10 +2,12 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
 import { useState } from 'react';
+import { useCart } from '../context/useCart';
 
 export default function Navigation() {
   const { isLoggedIn, isAdmin, logout } = useAuth();
   const { darkMode, toggleTheme } = useTheme();
+  const { itemCount } = useCart();
   const [adminMenuOpen, setAdminMenuOpen] = useState(false);
 
   return (
@@ -68,6 +70,25 @@ export default function Navigation() {
             </div>
           </div>
           <div className="flex items-center space-x-4">
+            <Link
+              to="/cart"
+              className={`inline-flex items-center gap-2 px-3 py-2 rounded-full border ${darkMode ? 'border-gray-700 text-light hover:border-primary hover:text-primary bg-gray-800/80' : 'border-gray-300 text-gray-700 hover:border-primary hover:text-primary bg-white'} transition-colors`}
+              aria-label={`Open cart with ${itemCount} items`}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path d="M3 1a1 1 0 000 2h1.22l.71 3.12.01.04 1.23 5.42A2 2 0 008.12 13h6.76a2 2 0 001.95-1.55l1.22-5A1 1 0 0017.08 5H6.35L5.66 2.03A1 1 0 004.68 1H3z" />
+                <path d="M8 16a2 2 0 100 4 2 2 0 000-4zm7 0a2 2 0 100 4 2 2 0 000-4z" />
+              </svg>
+              <span className="hidden sm:inline text-sm font-medium">Cart</span>
+              <span className="inline-flex items-center justify-center min-w-[1.5rem] h-6 px-2 rounded-full bg-primary text-white text-xs font-semibold">
+                {itemCount}
+              </span>
+            </Link>
             <button
               onClick={toggleTheme}
               className="p-2 rounded-full focus:outline-none transition-colors"
