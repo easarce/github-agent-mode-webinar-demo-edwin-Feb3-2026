@@ -2,11 +2,14 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
 import { useState } from 'react';
+import CartIcon from './cart/CartIcon';
+import { cartItems } from './cart/cartData';
 
 export default function Navigation() {
   const { isLoggedIn, isAdmin, logout } = useAuth();
   const { darkMode, toggleTheme } = useTheme();
   const [adminMenuOpen, setAdminMenuOpen] = useState(false);
+  const cartItemCount = cartItems.reduce((total, item) => total + item.quantity, 0);
 
   return (
     <nav className={`${darkMode ? 'bg-dark/95' : 'bg-white/95'} backdrop-blur-sm fixed w-full z-50 shadow-md transition-colors duration-300`}>
@@ -68,6 +71,7 @@ export default function Navigation() {
             </div>
           </div>
           <div className="flex items-center space-x-4">
+            <CartIcon itemCount={cartItemCount} />
             <button
               onClick={toggleTheme}
               className="p-2 rounded-full focus:outline-none transition-colors"

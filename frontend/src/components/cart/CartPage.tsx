@@ -1,0 +1,119 @@
+import { useTheme } from '../../context/ThemeContext';
+import { Link } from 'react-router-dom';
+import { cartItems } from './cartData';
+
+const DISCOUNT_RATE = 0.05;
+const FLAT_SHIPPING_COST = 10;
+const formatCurrency = (amount: number) => `$${amount.toFixed(2)}`;
+
+export default function CartPage() {
+  const { darkMode } = useTheme();
+  const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const discount = subtotal * DISCOUNT_RATE;
+  const shipping = FLAT_SHIPPING_COST;
+  const total = subtotal - discount + shipping;
+
+  return (
+    <section className={`min-h-screen pt-24 pb-10 px-4 transition-colors duration-300 ${darkMode ? 'bg-dark' : 'bg-gray-100'}`}>
+      <div className="mx-auto grid w-full max-w-7xl gap-6 lg:grid-cols-[2fr_1fr]">
+        <div className={`rounded-xl border shadow-sm ${darkMode ? 'border-primary/20 bg-gray-900/70' : 'border-gray-200 bg-white'}`}>
+          <div className="border-b border-primary/20 p-5">
+            <h1 className={`text-2xl font-bold ${darkMode ? 'text-light' : 'text-gray-800'}`}>My Cart</h1>
+          </div>
+          <div className="space-y-4 p-5">
+            {cartItems.map((item, index) => (
+              <article
+                key={item.id}
+                className={`grid items-center gap-4 rounded-lg border p-4 sm:grid-cols-[auto_80px_1fr_auto_auto_auto] ${
+                  darkMode ? 'border-primary/20 bg-gray-800/70' : 'border-gray-200 bg-gray-50'
+                }`}
+              >
+                <span className={`text-lg font-semibold ${darkMode ? 'text-light' : 'text-gray-700'}`}>{index + 1}</span>
+                <img
+                  src={item.image}
+                  alt={item.name}
+                  width="64"
+                  height="64"
+                  className="h-16 w-16 rounded-md object-cover"
+                  onError={(event) => {
+                    event.currentTarget.src = '/copilot.png';
+                  }}
+                />
+                <div>
+                  <p className={`font-semibold ${darkMode ? 'text-light' : 'text-gray-800'}`}>{item.name}</p>
+                  <p className="text-sm text-primary">{formatCurrency(item.price)} each</p>
+                </div>
+                <span
+                  className={`rounded-md border px-3 py-1 text-center ${darkMode ? 'border-gray-600 text-light' : 'border-gray-300 text-gray-700'}`}
+                  aria-label={`Quantity ${item.quantity}`}
+                >
+                  {item.quantity}
+                </span>
+                <span className={`text-lg font-semibold ${darkMode ? 'text-light' : 'text-gray-800'}`}>{formatCurrency(item.price * item.quantity)}</span>
+                <button
+                  className="text-primary opacity-70 transition-colors disabled:cursor-not-allowed disabled:opacity-50"
+                  aria-label={`Remove ${item.name} from cart`}
+                  type="button"
+                  disabled
+                  title="Remove action is not available in this demo"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 7h12M9 7V5a1 1 0 011-1h4a1 1 0 011 1v2m-8 0v12a1 1 0 001 1h8a1 1 0 001-1V7" />
+                  </svg>
+                </button>
+              </article>
+            ))}
+          </div>
+          <div className="flex flex-wrap items-center justify-between gap-3 border-t border-primary/20 p-5">
+            <button
+              type="button"
+              className="rounded-full bg-primary px-6 py-2 font-medium text-white opacity-70 transition-colors disabled:cursor-not-allowed disabled:opacity-50"
+              disabled
+            >
+              Apply Coupon
+            </button>
+            <button
+              type="button"
+              className="rounded-full bg-primary px-6 py-2 font-medium text-white opacity-70 transition-colors disabled:cursor-not-allowed disabled:opacity-50"
+              disabled
+            >
+              Update Cart
+            </button>
+          </div>
+        </div>
+
+        <aside className={`h-fit rounded-xl border shadow-sm ${darkMode ? 'border-primary/20 bg-gray-900/70' : 'border-gray-200 bg-white'}`}>
+          <div className="border-b border-primary/20 p-5">
+            <h2 className={`text-2xl font-bold ${darkMode ? 'text-light' : 'text-gray-800'}`}>Order Summary</h2>
+          </div>
+          <dl className="space-y-3 p-5">
+            <div className="flex items-center justify-between">
+              <dt className={darkMode ? 'text-gray-300' : 'text-gray-700'}>Subtotal</dt>
+              <dd className={`font-semibold ${darkMode ? 'text-light' : 'text-gray-800'}`}>{formatCurrency(subtotal)}</dd>
+            </div>
+            <div className="flex items-center justify-between">
+              <dt className={darkMode ? 'text-gray-300' : 'text-gray-700'}>Discount (5%)</dt>
+              <dd className={`font-semibold ${darkMode ? 'text-light' : 'text-gray-800'}`}>-{formatCurrency(discount)}</dd>
+            </div>
+            <div className="flex items-center justify-between">
+              <dt className={darkMode ? 'text-gray-300' : 'text-gray-700'}>Shipping</dt>
+              <dd className={`font-semibold ${darkMode ? 'text-light' : 'text-gray-800'}`}>{formatCurrency(shipping)}</dd>
+            </div>
+            <div className="flex items-center justify-between border-t border-primary/20 pt-3">
+              <dt className={`text-lg font-semibold ${darkMode ? 'text-light' : 'text-gray-800'}`}>Grand Total</dt>
+              <dd className="text-lg font-bold text-primary">{formatCurrency(total)}</dd>
+            </div>
+          </dl>
+          <div className="p-5 pt-0">
+            <Link
+              to="/login"
+              className="inline-flex w-full items-center justify-center rounded-full bg-primary px-6 py-3 font-semibold text-white transition-colors hover:bg-accent"
+            >
+              Proceed To Checkout
+            </Link>
+          </div>
+        </aside>
+      </div>
+    </section>
+  );
+}
