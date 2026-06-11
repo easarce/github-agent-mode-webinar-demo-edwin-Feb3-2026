@@ -28,6 +28,11 @@ When generating suggestions:
 - Keep PRs scoped: code + tests + docs (architecture or build notes) when behavior changes.
 - Update related instruction files if new folders or architectural slices are introduced.
 
+## Azure DevOps MCP
+
+- This project uses Azure DevOps in demos and supporting workflows.
+- Always check to see if the Azure DevOps MCP server has a tool relevant to the user's request before answering Azure DevOps questions from memory.
+
 ## Do Not Repeat
 Do not inline full API route or component files in review feedback unless absolutely necessary: quote only the lines requiring change. Summarize low‑impact nits.
 
