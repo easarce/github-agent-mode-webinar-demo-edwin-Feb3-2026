@@ -70,6 +70,12 @@ You can also use the Command Palette to start the MCP servers.
 
 - Use the cmd palette `Cmd/Ctrl + Shift + P` -> `MCP: List servers` -> `playwright` -> `Start server`
 
+#### Start the Azure DevOps MCP Server
+
+- Use the cmd palette `Cmd/Ctrl + Shift + P` -> `MCP: List servers` -> `ado-remote-mcp` -> `Start server`
+- Enter your Azure DevOps organization name when prompted. The remote server uses browser-based sign-in, so make sure you authenticate with an account that can access that organization.
+- Try a prompt like `list my Azure DevOps projects` or `show my work items in Azure DevOps`
+
 ##### Start the GitHub MCP Server
 
 > Generate a fine-grained PAT that has permissions to read/write Issues and PRs, context and whatever other features you want to demo. You can create this at the org/repo level. I suggest creating a PAT and storing it in a key vault (or 1Password) so that you have it handy.
